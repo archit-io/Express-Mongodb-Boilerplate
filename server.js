@@ -1,11 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser') //server can now read data from the form that posts to it
 require('dotenv').config()
 const MongoClient = require('mongodb').MongoClient
 const app = express();
 
 // Make sure you place body-parser before your CRUD handlers!
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json()) //server will now be able to read JSON objects
+app.use(express.static('public')) //public folder made accessible
 
 app.set('view engine', 'ejs') //setting up templating engine
 
@@ -31,6 +33,27 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         res.render('index.ejs', { quotes: results })
       })
       .catch(/* ... */)
+  })
+
+  app.put('/quotes', (req, res) => {
+    quotesCollection.findOneAndUpdate(
+      quotesCollection.findOneAndUpdate(
+        { name: 'john' },
+        {
+          $set: {
+            name: req.body.name,
+            quote: req.body.quote
+          }
+        },
+        {
+          upsert: true
+        }
+      )        
+    )
+      .then(result => {
+        console.log(result)
+       })
+      .catch(error => console.error(error))
   })
 })
 
