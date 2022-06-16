@@ -24,6 +24,14 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
       })
       .catch(error => console.error(error))
   })
+
+  app.get('/', (req, res) => {
+    db.collection('quotes').find().toArray()
+      .then(results => {
+        res.render('index.ejs', { quotes: results })
+      })
+      .catch(/* ... */)
+  })
 })
 
 app.listen(3000, function() {
