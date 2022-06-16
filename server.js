@@ -4,20 +4,13 @@ require('dotenv').config()
 const MongoClient = require('mongodb').MongoClient
 const app = express();
 
-const connectionString = 'mongodb+srv://archit:Asdf1234$$@cluster0.mrxqhgv.mongodb.net/?retryWrites=true&w=majority'
+const connectionString = `mongodb+srv://archit:${process.env.DB_PASSWORD}@cluster0.mrxqhgv.mongodb.net/?retryWrites=true&w=majority`
 
-//connecting to mongodb using callback
-// MongoClient.connect(connectionString, (err, client) => {
-//   if (err) return console.error(err)
-//   console.log('Connected to Database')
-// })
-
-//connecting to mongodb using promises which is same as the above
 MongoClient.connect(connectionString, { useUnifiedTopology: true })
-  .then(client => {
-    console.log('Connected to Database')
-  })
-  .catch(error => console.error(error))
+.then(client => {
+  console.log('Connected to Database')
+  const db = client.db('Cluster0')
+})
 
 // Make sure you place body-parser before your CRUD handlers!
 app.use(bodyParser.urlencoded({ extended: true }))
