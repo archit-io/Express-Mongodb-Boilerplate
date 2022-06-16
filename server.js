@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser')
+require('dotenv').config()
 const app = express();
 
 // Make sure you place body-parser before your CRUD handlers!
